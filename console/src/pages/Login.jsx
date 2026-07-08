@@ -28,11 +28,18 @@ export default function Login() {
         <form onSubmit={handleSubmit}>
           <input
             className="login-input"
+            type="text"
+            placeholder="username"
+            value={username}
+            onChange={e => setUsername(e.target.value)}
+            autoFocus
+          />
+          <input
+            className="login-input"
             type="password"
             placeholder="password"
             value={password}
             onChange={e => setPassword(e.target.value)}
-            autoFocus
           />
           {error && <div className="login-error">{error}</div>}
           <button className="login-btn" type="submit">connect</button>
