@@ -5,9 +5,8 @@ export default function LogTerminal() {
   const bottomRef = useRef(null)
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
     const proto = location.protocol === 'https:' ? 'wss:' : 'ws:'
-    const ws = new WebSocket(`${proto}//${location.host}/ws/logs?token=${token}`)
+    const ws = new WebSocket(`${proto}//${location.host}/ws/logs`)
 
     ws.onopen = () => setLogs(prev => [...prev, '-- connected --'])
     ws.onmessage = e => setLogs(prev => [...prev.slice(-200), e.data])
