@@ -35,7 +35,7 @@ app.add_middleware(
 )
 
 
-SILENT_ROUTES = {("GET", "/commands/")}
+SILENT_ROUTES = {("GET", "/commands/"), ("GET", "/agent/status")}
 
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
@@ -76,5 +76,7 @@ def read_root():
 
 
 from app.routes.command_routes import router as command_router
+from app.routes.agent_routes import router as agent_router
 
 app.include_router(command_router, tags=["commands"])
+app.include_router(agent_router)

@@ -25,27 +25,43 @@ body { background: var(--bg); color: var(--text); height: 100vh; overflow: hidde
 /* ── dashboard layout ── */
 .dashboard {
   display: grid;
-  grid-template-rows: 56px 1fr 280px;
   height: 100vh;
+  min-height: 0;
 }
-.dashboard-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 24px; border-bottom: 1px solid var(--border); background: var(--bg-panel);
-  gap: 12px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-.header-left { display: flex; align-items: center; gap: 8px; }
-.header-title { font-size: 18px; font-weight: 600; color: var(--text); margin-left: 8px; }
 
 .dashboard-body {
-  display: grid; grid-template-columns: 360px 1fr;
+  display: grid;
   overflow: hidden; border-bottom: 1px solid var(--border);
+  min-width: 0; min-height: 0;
 }
+
+/* ── splitters ── */
+.splitter {
+  background: var(--border);
+  position: relative;
+  z-index: 1;
+}
+.splitter::after {
+  content: ''; position: absolute; background: transparent;
+}
+.splitter-vertical { cursor: col-resize; }
+.splitter-vertical::after { top: 0; bottom: 0; left: -3px; right: -3px; }
+.splitter-horizontal { cursor: row-resize; }
+.splitter-horizontal::after { left: 0; right: 0; top: -3px; bottom: -3px; }
+.splitter:hover, .splitter:active { background: var(--primary); }
 
 /* ── panel header ── */
 .panel-header {
   padding: 12px 16px; font-size: 12px; color: var(--dim); font-weight: 500;
   border-bottom: 1px solid var(--border); background: var(--bg);
 }
+.panel-header-row { display: flex; align-items: center; justify-content: space-between; }
+.agent-status { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--dim); font-weight: 500; }
+.copy-btn {
+  background: none; border: 1px solid var(--border); color: var(--dim);
+  font-size: 11px; padding: 3px 8px; border-radius: 4px; cursor: pointer; transition: all 0.2s;
+}
+.copy-btn:hover { color: var(--text); border-color: var(--text); }
 
 /* ── command panel (list + form) ── */
 .command-panel {
@@ -116,7 +132,13 @@ body { background: var(--bg); color: var(--text); height: 100vh; overflow: hidde
 .menu-delete:hover { background: rgba(239, 68, 68, 0.08); }
 
 /* ── log terminal ── */
-.log-terminal { background: var(--bg-panel); display: flex; flex-direction: column; overflow: hidden; border-top: 1px solid var(--border); }
+.log-terminal { position: relative; background: var(--bg-panel); display: flex; flex-direction: column; overflow: hidden; border-top: 1px solid var(--border); }
 .log-content { padding: 12px 16px; overflow-y: auto; flex: 1; font-size: 13px; line-height: 1.6; }
-.log-line { color: var(--text)x 14px; overflow-y: auto; flex: 1; font-size: 13px; line-height: 1.6; }
 .log-line { color: #e0e0e0; }
+.jump-bottom-btn {
+  position: absolute; right: 16px; bottom: 12px;
+  background: var(--primary); color: white; border: none;
+  font-size: 12px; padding: 6px 12px; border-radius: 6px; cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); transition: background 0.2s;
+}
+.jump-bottom-btn:hover { background: #2563eb; }
