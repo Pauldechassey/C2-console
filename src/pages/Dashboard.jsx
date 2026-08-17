@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import CommandList from '../components/CommandList'
 import CommandResult from '../components/CommandResult'
 import CommandForm from '../components/CommandForm'
@@ -29,6 +29,7 @@ export default function Dashboard() {
   const [panelWidth, setPanelWidth] = usePersistedSize('panelWidth', 360)
   const [logHeight, setLogHeight] = usePersistedSize('logHeight', 280)
   const lastSeen = useAgentStatus()
+  const commandListRef = useRef(null)
 
   useEffect(() => {
     fetchCommands()
@@ -75,10 +76,11 @@ export default function Dashboard() {
     <div className="dashboard" style={{ gridTemplateRows: `1fr 6px ${logHeight}px` }}>
       <div className="dashboard-body" style={{ gridTemplateColumns: `${panelWidth}px 6px 1fr` }}>
         <div className="command-panel">
-          <CommandList commands={commands} selectedId={selectedId} onSelect={setSelectedId} onDelete={handleDelete} lastSeen={lastSeen} />
+          <CommandList ref={commandListRef} commands={commands} selectedId={selectedId} onSelect={setSelectedId} onDelete={handleDelete} lastSeen={lastSeen} />
           <CommandForm
             onCreated={fetchCommands}
             nextOrder={commands.length + 1}
+            commandListRef={commandListRef}
           />
         </div>
         <Splitter direction="vertical" onResize={dx => setPanelWidth(w => clamp(w + dx, 240, 720))} />

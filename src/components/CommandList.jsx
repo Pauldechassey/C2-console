@@ -1,8 +1,17 @@
-import { useState } from 'react'
+import { useState, useRef, forwardRef, useImperativeHandle } from 'react'
 import AgentStatus from './AgentStatus'
 
-export default function CommandList({ commands, selectedId, onSelect, onDelete, lastSeen }) {
+const CommandList = forwardRef(function CommandList({ commands, selectedId, onSelect, onDelete, lastSeen }, ref) {
   const [openId, setOpenId] = useState(null)
+  const containerRef = useRef(null)
+
+  useImperativeHandle(ref, () => ({
+    scrollToBottom: () => {
+      if (containerRef.current) {
+        containerRef.current.scrollTop = containerRef.current.scrollHeight
+      }
+    }
+  }))
 
   function toggleMenu(e, id) {
     e.stopPropagation()
@@ -18,7 +27,7 @@ export default function CommandList({ commands, selectedId, onSelect, onDelete, 
   }
 
   return (
-    <div className="command-list">
+    <div className="command-list" ref={containerRef}>
       <div className="panel-header panel-header-row">
         <span>COMMANDS</span>
         <AgentStatus lastSeen={lastSeen} />
@@ -61,7 +70,9 @@ export default function CommandList({ commands, selectedId, onSelect, onDelete, 
       </table>
     </div>
   )
-}
+})
+
+export default CommandList
 
 function formatTime(iso) {
   if (!iso) return ''
