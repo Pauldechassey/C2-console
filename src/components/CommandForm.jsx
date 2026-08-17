@@ -49,21 +49,14 @@ export default function CommandForm({ onCreated, nextOrder, commandListRef }) {
         setHistory(newHistory)
       }
 
-      // Check if scrolled to bottom before submission
+      // Check if scrolled to bottom before submission and notify CommandList
       const wasAtBottom = commandListRef?.current?.isAtBottom?.() ?? false
-      isAtBottomRef.current = wasAtBottom
+      commandListRef?.current?.setWasAtBottom?.(wasAtBottom)
 
       await createCommand(command.trim(), nextOrder)
       setCommand('')
       setHistoryIndex(-1)
       onCreated()
-
-      // Scroll to bottom if was at bottom
-      setTimeout(() => {
-        if (isAtBottomRef.current && commandListRef?.current?.scrollToBottom) {
-          commandListRef.current.scrollToBottom()
-        }
-      }, 0)
     } catch {
       // ignore
     } finally {

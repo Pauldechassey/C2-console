@@ -1,9 +1,17 @@
-import { useState, useRef, forwardRef, useImperativeHandle } from 'react'
+import { useState, useRef, forwardRef, useImperativeHandle, useEffect } from 'react'
 import AgentStatus from './AgentStatus'
 
 const CommandList = forwardRef(function CommandList({ commands, selectedId, onSelect, onDelete, lastSeen }, ref) {
   const [openId, setOpenId] = useState(null)
   const containerRef = useRef(null)
+  const wasAtBottomRef = useRef(false)
+
+  useEffect(() => {
+    // Scroll to bottom if we were at bottom before
+    if (wasAtBottomRef.current && containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight
+    }
+  }, [commands])
 
   useImperativeHandle(ref, () => ({
     scrollToBottom: () => {
@@ -15,6 +23,9 @@ const CommandList = forwardRef(function CommandList({ commands, selectedId, onSe
       if (!containerRef.current) return false
       const { scrollHeight, scrollTop, clientHeight } = containerRef.current
       return Math.abs(scrollHeight - scrollTop - clientHeight) < 10
+    },
+    setWasAtBottom: (value) => {
+      wasAtBottomRef.current = value
     }
   }))
 
