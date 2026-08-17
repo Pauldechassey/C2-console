@@ -10,6 +10,11 @@ const CommandList = forwardRef(function CommandList({ commands, selectedId, onSe
       if (containerRef.current) {
         containerRef.current.scrollTop = containerRef.current.scrollHeight
       }
+    },
+    isAtBottom: () => {
+      if (!containerRef.current) return false
+      const { scrollHeight, scrollTop, clientHeight } = containerRef.current
+      return Math.abs(scrollHeight - scrollTop - clientHeight) < 10
     }
   }))
 

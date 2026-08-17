@@ -50,10 +50,8 @@ export default function CommandForm({ onCreated, nextOrder, commandListRef }) {
       }
 
       // Check if scrolled to bottom before submission
-      if (commandListRef?.current?.scrollToBottom) {
-        const container = commandListRef.current
-        isAtBottomRef.current = Math.abs(container.scrollHeight - container.scrollTop - container.clientHeight) < 10
-      }
+      const wasAtBottom = commandListRef?.current?.isAtBottom?.() ?? false
+      isAtBottomRef.current = wasAtBottom
 
       await createCommand(command.trim(), nextOrder)
       setCommand('')
@@ -62,7 +60,7 @@ export default function CommandForm({ onCreated, nextOrder, commandListRef }) {
 
       // Scroll to bottom if was at bottom
       setTimeout(() => {
-        if (isAtBottomRef.current && commandListRef?.current) {
+        if (isAtBottomRef.current && commandListRef?.current?.scrollToBottom) {
           commandListRef.current.scrollToBottom()
         }
       }, 0)
