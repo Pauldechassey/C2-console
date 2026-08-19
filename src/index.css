@@ -56,6 +56,7 @@ body { background: var(--bg); color: var(--text); height: 100vh; overflow: hidde
   border-bottom: 1px solid var(--border); background: var(--bg);
 }
 .panel-header-row { display: flex; align-items: center; justify-content: space-between; }
+.panel-header-actions { display: flex; align-items: center; gap: 12px; }
 .agent-status { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--dim); font-weight: 500; }
 .copy-btn {
   background: none; border: 1px solid var(--border); color: var(--dim);

@@ -1,7 +1,6 @@
 import { useState, useRef, forwardRef, useImperativeHandle, useEffect } from 'react'
-import AgentStatus from './AgentStatus'
 
-const CommandList = forwardRef(function CommandList({ commands, selectedId, onSelect, onDelete, lastSeen }, ref) {
+const CommandList = forwardRef(function CommandList({ commands, selectedId, onSelect, onDelete }, ref) {
   const [openId, setOpenId] = useState(null)
   const containerRef = useRef(null)
   const wasAtBottomRef = useRef(false)
@@ -44,10 +43,6 @@ const CommandList = forwardRef(function CommandList({ commands, selectedId, onSe
 
   return (
     <div className="command-list" ref={containerRef}>
-      <div className="panel-header panel-header-row">
-        <span>COMMANDS</span>
-        <AgentStatus lastSeen={lastSeen} />
-      </div>
       <table className="cmd-table">
         <thead>
           <tr>

@@ -76,7 +76,7 @@ export default function Dashboard() {
     <div className="dashboard" style={{ gridTemplateRows: `1fr 6px ${logHeight}px` }}>
       <div className="dashboard-body" style={{ gridTemplateColumns: `${panelWidth}px 6px 1fr` }}>
         <div className="command-panel">
-          <CommandList ref={commandListRef} commands={commands} selectedId={selectedId} onSelect={setSelectedId} onDelete={handleDelete} lastSeen={lastSeen} />
+          <CommandList ref={commandListRef} commands={commands} selectedId={selectedId} onSelect={setSelectedId} onDelete={handleDelete} />
           <CommandForm
             onCreated={fetchCommands}
             nextOrder={commands.length + 1}
@@ -84,7 +84,7 @@ export default function Dashboard() {
           />
         </div>
         <Splitter direction="vertical" onResize={dx => setPanelWidth(w => clamp(w + dx, 240, 720))} />
-        <CommandResult command={selected} />
+        <CommandResult command={selected} lastSeen={lastSeen} />
       </div>
 
       <Splitter direction="horizontal" onResize={dy => setLogHeight(h => clamp(h - dy, 120, 640))} />
